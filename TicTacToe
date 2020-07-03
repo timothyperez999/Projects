@@ -1,0 +1,100 @@
+package tictactoe;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        char[][] field = new char[3][3];
+        int total = 0;
+
+        printArray(field);
+
+        while (true) {
+            int x = 0;
+            int y = 0;
+            while (true) {
+                System.out.print("Enter the coordinates: ");
+                try {
+                    String[] input = scanner.nextLine().split(" ");
+                    x = Integer.parseInt(input[0]);
+                    y = Integer.parseInt(input[1]);
+                } catch (Exception ex) {
+                    System.out.println("You should enter numbers!");
+                    continue;
+                }
+                if (x > field.length || y > field.length || x < 1 || y < 1){
+                    System.out.println("Coordinates should be from 1 to " + field.length + "!");
+                } else if (field[3 - y][x - 1] != 0) {
+                    System.out.println("This cell is occupied! Choose another one!");
+                } else {
+                    if ((total + 1) % 2 == 0) {
+                        field[3 - y][x - 1] = 'O';
+                        break;
+                    } else {
+                        field[3 - y][x - 1] = 'X';
+                        break;
+                    }
+                }
+            }
+            printArray(field);
+            total++;
+            if (doesWin(field)) {
+                System.out.println(field[3 - y][x - 1] + " wins!");
+                break;
+            } else if (total == 9) {
+                System.out.println("Draw!");
+                break;
+            }
+        }
+
+
+    }
+    public static void printArray(char[][] arr) {
+        System.out.println("---------");
+        for (int i = 0; i < 3; i++) {
+            System.out.print("| ");
+            for (int j = 0; j < 3; j++) {
+                if (arr[i][j] == 0) {
+                    System.out.print("  ");
+                } else {
+                    System.out.print(arr[i][j] + " ");
+                }
+            }
+            System.out.println("|");
+        }
+        System.out.println("---------");
+    }
+    public static boolean doesWin(char[][] arr) {
+
+        for (int i = 0; i < 3; i++) {
+            if (arr[i][0] == arr[i][1] && arr[i][0] == arr[i][2]) {
+                if (arr[i][0] != 0 && arr[i][1] != 0 && arr[i][2] != 0) {
+                    return true;
+                }
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (arr[0][i] == arr[1][i] && arr[0][i] == arr[2][i]) {
+                if (arr[0][i] != 0 && arr[1][i] != 0 && arr[2][i] != 0) {
+                    return true;
+                }
+            }
+        }
+        if (arr[0][0] == arr[1][1] && arr[0][0] == arr[2][2]) {
+            if (arr[0][0] != 0 && arr[1][1] != 0 && arr[2][2] != 0) {
+                return true;
+            }
+        } else if (arr[0][2] == arr[1][1] && arr[0][2] == arr[2][0]) {
+            if (arr[0][2] != 0 && arr[1][1] != 0 && arr[2][0] != 0) {
+                return true;
+            }
+        }
+
+        System.out.println("5");
+        return false;
+
+    }
+}
